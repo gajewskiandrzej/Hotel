@@ -10,6 +10,12 @@ namespace Hotel
     {
         static void Main(string[] args)
         {
+            Pokoj pokoj = new Pokoj(2);
+            Gosc gosc = new Gosc("Gajewski");
+            pokoj.Zarezerwuj(gosc);
+            Console.WriteLine(pokoj);
+
+            Console.ReadKey();
         }
     }
 }

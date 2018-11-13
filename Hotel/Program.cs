@@ -6,14 +6,156 @@ using System.Threading.Tasks;
 
 namespace Hotel
 {
+    public enum StanPokoju { wolny, zajety, zarezerwowany, wycofany }
+
+    public abstract class Rezerwacja
+    {
+        public abstract bool WyszukajWolnyPokoj(StanPokoju stanPokoju);
+        public abstract void ZarezerwujPokoj(int nrPokoju);
+    }
+
+    public class Pokoj
+    {
+        int nrPokoju { get; set; }
+        string nazwiskoGoscia;
+        public string NazwiskoGoscia
+        {
+            get
+            {
+                return nazwiskoGoscia;
+            }
+            set
+            {
+                nazwiskoGoscia = value;
+            }
+        }
+        StanPokoju stanPokoju = StanPokoju.wolny;
+
+        public Pokoj(int nrPokoju)
+        {
+            this.nrPokoju = nrPokoju;
+        }
+
+        public void Zarezerwuj(string nazwiskoGoscia)
+        {
+            stanPokoju = StanPokoju.zarezerwowany;
+            NazwiskoGoscia = nazwiskoGoscia;
+        }
+
+        public void Wydaj()
+        {
+            stanPokoju = StanPokoju.zajety;
+            NazwiskoGoscia = nazwiskoGoscia;
+        }
+
+        public void Przyjmij()
+        {
+            stanPokoju = StanPokoju.wolny;
+            NazwiskoGoscia = string.Empty;
+        }
+
+        public void Wycofaj()
+        {
+            stanPokoju = StanPokoju.wycofany;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Numer pokoju: {0} Nazwisko gościa: {1} Stan pokoju: {2}", nrPokoju, nazwiskoGoscia, stanPokoju);
+        }
+    }
+
+    class Gosc : Rezerwacja
+    {
+        string nazwisko;
+        public string Nazwisko
+        {
+            get
+            {
+                return nazwisko;
+            }
+            set
+            {
+                nazwisko = value;
+            }
+        }
+
+        public Gosc(string nazwisko)
+        {
+            this.nazwisko = nazwisko;
+        }
+
+        public override bool WyszukajWolnyPokoj(StanPokoju stanPokoju)
+        {
+            if (stanPokoju == StanPokoju.wolny)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public override void ZarezerwujPokoj(int nrPokoju)
+        {
+            stanPokoju = StanPokoju.zarezerwowany;
+            Nazwisko = nazwisko;
+        }
+    }
+
+    class Hotel
+    {
+
+    }
+
+    class DyrektorHotelu
+    {
+        public static void DodajPokoj()
+        {
+
+        }
+
+        public static void WycofajPokoj()
+        {
+
+        }
+    }
+
+    class Recepcjonista
+    {
+        public static void WyszukajWolnyPokoj()
+        {
+
+        }
+
+        public static void WyszukajZarezerwowany()
+        {
+
+        }
+
+        public static void ZarezerwujPokoj()
+        {
+
+        }
+
+        public static void ZwolnijPokoj()
+        {
+
+        }
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
-            Pokoj pokoj = new Pokoj(2);
-            Gosc gosc = new Gosc("Gajewski");
-            pokoj.Zarezerwuj(gosc);
-            Console.WriteLine(pokoj);
+            Pokoj pokoj1 = new Pokoj(1);
+            //pokoj1.Zarezerwuj("Gajewski");
+
+            Gosc gosc1 = new Gosc("Nowak");
+            gosc1.ZarezerwujPokoj(pokoj1);
+
+            Console.WriteLine(pokoj1);
 
             Console.ReadKey();
         }

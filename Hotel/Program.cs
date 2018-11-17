@@ -10,8 +10,10 @@ namespace Hotel
 
     public abstract class Rezerwacja
     {
+        public int pokoj;
+
         public abstract bool WyszukajWolnyPokoj(StanPokoju stanPokoju);
-        public abstract void ZarezerwujPokoj(int nrPokoju);
+        public abstract void ZarezerwujPokoj(ref int pokoj);
     }
 
     public class Pokoj
@@ -68,17 +70,7 @@ namespace Hotel
     class Gosc : Rezerwacja
     {
         string nazwisko;
-        public string Nazwisko
-        {
-            get
-            {
-                return nazwisko;
-            }
-            set
-            {
-                nazwisko = value;
-            }
-        }
+        public string Nazwisko { get; set; }
 
         public Gosc(string nazwisko)
         {
@@ -97,9 +89,9 @@ namespace Hotel
             }
         }
 
-        public override void ZarezerwujPokoj(int nrPokoju)
+        public override void ZarezerwujPokoj(ref int nrPokoju)
         {
-            stanPokoju = StanPokoju.zarezerwowany;
+            StanPokoju stanPokoju = StanPokoju.zarezerwowany;
             Nazwisko = nazwisko;
         }
     }
@@ -150,12 +142,14 @@ namespace Hotel
         static void Main(string[] args)
         {
             Pokoj pokoj1 = new Pokoj(1);
-            //pokoj1.Zarezerwuj("Gajewski");
+            Pokoj pokoj2 = new Pokoj(2);
+            pokoj1.Zarezerwuj("Gajewski");
 
             Gosc gosc1 = new Gosc("Nowak");
-            gosc1.ZarezerwujPokoj(pokoj1);
+            gosc1.ZarezerwujPokoj(2);
 
             Console.WriteLine(pokoj1);
+            Console.WriteLine(pokoj2);
 
             Console.ReadKey();
         }

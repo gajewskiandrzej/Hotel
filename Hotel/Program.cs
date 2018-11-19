@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hotel
 {
@@ -19,10 +15,6 @@ namespace Hotel
                 {
                     Console.WriteLine("Wolny pokoj: " + pokoj.NrPokoju);
                 }
-                else
-                {
-                    Console.WriteLine("Brak wolnych pokoi");
-                }
             }
         }
         public void ZarezerwujPokoj(byte nrPokoju, Gosc gosc)
@@ -32,6 +24,7 @@ namespace Hotel
                 if(pokoj.NrPokoju == nrPokoju)
                 {
                     pokoj.StanPokoju = StanPokoju.zarezerwowany;
+                    pokoj.NazwiskoGoscia = gosc.Nazwisko;
                 }
             }
         }
@@ -148,7 +141,7 @@ namespace Hotel
             {
                 if (pokoj.StanPokoju == StanPokoju.zarezerwowany)
                 {
-                    Console.WriteLine("Zarezerwowany pokoj: " + pokoj.NrPokoju + " Nazwisko gościa" + pokoj.NazwiskoGoscia);
+                    Console.WriteLine("Zarezerwowany pokoj: " + pokoj.NrPokoju + " Nazwisko gościa: " + pokoj.NazwiskoGoscia);
                 }
             }
         }
@@ -202,10 +195,30 @@ namespace Hotel
             Console.WriteLine("=================================");
             gosc1.WyszukajWolnyPokoj();
             gosc1.ZarezerwujPokoj(1, gosc1);
+            gosc3.ZarezerwujPokoj(2, gosc3);
 
             Console.WriteLine("Lista zarezerwowanych pokoi:");
             Console.WriteLine("=================================");
             recepcjonistkaGosia.WyszukajZarezerwowany();
+
+            Console.WriteLine("Lista wolnych pokoi po rezerwacji:");
+            Console.WriteLine("=================================");
+            gosc1.WyszukajWolnyPokoj();
+
+            Console.WriteLine("Lista pokoi po rezerwacji:");
+            Console.WriteLine("=================================");
+            hotel.PokazPokoje();
+
+            dyrektorHotelu.WycofajPokoj(5);
+            Console.WriteLine("Lista pokoi po operacji dyrektora:");
+            Console.WriteLine("=================================");
+            hotel.PokazPokoje();
+
+            recepcjonistkaGosia.ZarezerwujPokoj(4, gosc2);
+            recepcjonistkaGosia.ZwolnijPokoj(2);
+            Console.WriteLine("Lista pokoi po operacji sekretarki:");
+            Console.WriteLine("=================================");
+            hotel.PokazPokoje();
 
 
             Console.ReadKey();
